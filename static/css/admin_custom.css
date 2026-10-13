@@ -1,0 +1,188 @@
+/* EventFlow Control Room - tema oscuro para el admin de Django.
+   No reemplaza plantillas internas: solo sobreescribe las variables CSS del admin.
+   Los !important garantizan prioridad sobre admin/css/dark_mode.css. */
+
+:root {
+    --ef-bg: #0f1622;
+    --ef-panel: #162233;
+    --ef-card: #1f2f44;
+    --ef-border: #2c3f5a;
+    --ef-text: #e6edf7;
+    --ef-muted: #9fb3d9;
+    --ef-amber: #f59e0b;
+    --ef-cyan: #22d3ee;
+
+    --primary: #1f2f44 !important;
+    --primary-fg: #e6edf7 !important;
+
+    --body-fg: #e6edf7 !important;
+    --body-bg: #0f1622 !important;
+    --body-quiet-color: #9fb3d9 !important;
+    --body-medium-color: #c3d2ea !important;
+    --body-loud-color: #ffffff !important;
+
+    --header-color: #e6edf7 !important;
+    --header-branding-color: #f59e0b !important;
+    --header-bg: #0f1622 !important;
+    --header-link-color: #22d3ee !important;
+
+    --breadcrumbs-fg: #9fb3d9 !important;
+    --breadcrumbs-link-fg: #22d3ee !important;
+    --breadcrumbs-bg: #162233 !important;
+
+    --link-fg: #22d3ee !important;
+    --link-hover-color: #f59e0b !important;
+    --link-selected-fg: #f59e0b !important;
+
+    --hairline-color: #2c3f5a !important;
+    --border-color: #2c3f5a !important;
+    --error-fg: #f87171 !important;
+
+    --darkened-bg: #162233 !important;
+    --selected-bg: #1f2f44 !important;
+    --selected-row: #1f2f44 !important;
+
+    --button-fg: #04121f !important;
+    --button-bg: #22d3ee !important;
+    --button-hover-bg: #0ea5b7 !important;
+    --default-button-bg: #f59e0b !important;
+    --default-button-hover-bg: #d97706 !important;
+    --close-button-bg: #33465f !important;
+    --close-button-hover-bg: #2c3f5a !important;
+    --delete-button-bg: #f87171 !important;
+    --delete-button-hover-bg: #ef4444 !important;
+
+    --object-tools-fg: #e6edf7 !important;
+    --object-tools-bg: #1f2f44 !important;
+    --object-tools-hover-bg: #2c3f5a !important;
+
+    --message-debug-bg: #1f2f44 !important;
+    --message-info-bg: #1e3a5f !important;
+    --message-success-bg: #064e3b !important;
+    --message-warning-bg: #583305 !important;
+    --message-error-bg: #570808 !important;
+    --message-debug-icon: url(/static/admin/img/icon-debug-dark.svg) !important;
+    --message-info-icon: url(/static/admin/img/icon-info-dark.svg) !important;
+    --message-success-icon: url(/static/admin/img/icon-yes-dark.svg) !important;
+    --message-warning-icon: url(/static/admin/img/icon-alert-dark.svg) !important;
+    --message-error-icon: url(/static/admin/img/icon-no-dark.svg) !important;
+
+    color-scheme: dark;
+}
+
+body {
+    background: radial-gradient(1200px 800px at 20% 0%, #1b2a42 0%, var(--ef-bg) 55%) !important;
+}
+
+/* Barra superior con acentos ámbar/cian */
+#header {
+    background: linear-gradient(180deg, rgba(34, 211, 238, 0.12), rgba(245, 158, 11, 0.06)), var(--ef-bg) !important;
+    border-bottom: 1px solid var(--ef-border);
+}
+
+#branding .ef-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#branding .ef-brand-mark {
+    filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.6));
+    font-size: 1.2rem;
+}
+
+#branding .ef-brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+#branding .ef-brand-text strong {
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    font-size: 0.95rem;
+}
+
+#branding .ef-brand-text small {
+    color: var(--ef-cyan);
+    font-size: 0.72rem;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+#user-tools a,
+#user-tools button {
+    color: var(--ef-cyan) !important;
+}
+
+#user-tools a:hover,
+#user-tools button:hover {
+    color: var(--ef-amber) !important;
+}
+
+/* Módulos y tarjetas */
+.module,
+.inline-group,
+#changelist .actions,
+#changelist-filter,
+.paginator,
+.submit-row,
+div.breadcrumbs {
+    border: 1px solid var(--ef-border);
+    border-radius: 12px;
+}
+
+.module h2,
+.module caption,
+.inline-group h2 {
+    background: linear-gradient(90deg, rgba(245, 158, 11, 0.18), rgba(34, 211, 238, 0.12)), var(--ef-panel) !important;
+    color: #ffffff !important;
+    border-radius: 10px 10px 0 0;
+}
+
+/* Tablas */
+#result_list thead th {
+    background: var(--ef-panel) !important;
+    color: var(--ef-amber) !important;
+}
+
+#result_list tbody tr:hover {
+    background: rgba(34, 211, 238, 0.08) !important;
+}
+
+/* Inputs */
+input,
+textarea,
+select,
+.vTextField {
+    background: #0c1525 !important;
+    color: var(--ef-text) !important;
+    border: 1px solid var(--ef-border) !important;
+    border-radius: 8px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: rgba(34, 211, 238, 0.8) !important;
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18) !important;
+}
+
+/* Login */
+.login {
+    background: radial-gradient(1000px 600px at 50% 0%, #1b2a42 0%, var(--ef-bg) 60%);
+}
+
+.login .form-row label {
+    color: var(--ef-muted);
+}
+
+.login .submit-row input,
+.login .submit-row button {
+    background: linear-gradient(90deg, var(--ef-amber), var(--ef-cyan)) !important;
+    color: #04121f !important;
+    border: none !important;
+    font-weight: 700;
+    border-radius: 10px;
+}

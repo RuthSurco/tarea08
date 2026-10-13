@@ -1,0 +1,7 @@
+﻿from django.apps import AppConfig
+
+
+class GestionEventosConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'gestion_eventos'
+    verbose_name = 'Gestión de Eventos - Espacios y Recursos'

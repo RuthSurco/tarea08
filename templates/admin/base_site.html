@@ -1,0 +1,21 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | EventFlow Admin{% endblock %}
+
+{% block branding %}
+<div class="ef-brand">
+  <span class="ef-brand-mark">&#9889;</span>
+  <span class="ef-brand-text">
+    <strong>EventFlow</strong>
+    <small>Centro de Control</small>
+  </span>
+</div>
+{% endblock %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'css/admin_custom.css' %}">
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

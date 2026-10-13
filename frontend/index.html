@@ -1,0 +1,284 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventFlow Control Room</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <span class="brand-mark">⚡</span>
+            <span class="brand-name">EventFlow Control Room</span>
+        </div>
+        <div class="topbar-meta">
+            <span id="api-status" class="status-pill">API: --</span>
+            <span id="auth-status" class="status-pill">Auth: Anónimo</span>
+            <span class="user-pill">Demo</span>
+        </div>
+    </header>
+
+    <div class="app-shell">
+        <aside class="sidebar">
+            <nav>
+                <button class="nav-btn active" data-target="panel-resumen">Resumen</button>
+                <button class="nav-btn" data-target="panel-espacios">Espacios</button>
+                <button class="nav-btn" data-target="panel-inventario">Inventario</button>
+                <button class="nav-btn" data-target="panel-actividad">Actividad</button>
+            </nav>
+        </aside>
+
+        <main class="main">
+            <!-- Resumen -->
+            <section id="panel-resumen" class="panel active">
+                <h1 class="panel-title">Centro de Control - Resumen Operativo</h1>
+                <div class="kpi-grid">
+                    <article class="kpi-card">
+                        <h3>Total Espacios</h3>
+                        <div class="kpi-value" id="kpi-total-espacios">0</div>
+                    </article>
+                    <article class="kpi-card">
+                        <h3>Espacios Operativos</h3>
+                        <div class="kpi-value" id="kpi-operativos">0</div>
+                    </article>
+                    <article class="kpi-card">
+                        <h3>Recursos Registrados</h3>
+                        <div class="kpi-value" id="kpi-recursos">0</div>
+                    </article>
+                    <article class="kpi-card">
+                        <h3>Stock Total</h3>
+                        <div class="kpi-value" id="kpi-stock">0</div>
+                    </article>
+                </div>
+
+                <div class="panel-grid">
+                    <article class="card">
+                        <header class="card-header">
+                            <h2>Espacios</h2>
+                            <span class="muted">Vista rápida</span>
+                        </header>
+                        <div class="card-body" id="resumen-espacios"></div>
+                    </article>
+                    <article class="card">
+                        <header class="card-header">
+                            <h2>Recursos</h2>
+                            <span class="muted">Vista rápida</span>
+                        </header>
+                        <div class="card-body">
+                            <div class="table-wrap">
+                                <table class="data-table" id="resumen-recursos-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Código</th>
+                                            <th>Equipo</th>
+                                            <th>Cant.</th>
+                                            <th>Costo</th>
+                                            <th>Espacio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Espacios -->
+            <section id="panel-espacios" class="panel">
+                <h1 class="panel-title">Gestión de Espacios</h1>
+                <div class="panel-grid">
+                    <article class="card">
+                        <header class="card-header">
+                            <h2>Registrar Espacio</h2>
+                        </header>
+                        <div class="card-body">
+                            <form id="form-espacio" novalidate>
+                                <div class="form-row">
+                                    <label>Nombre
+                                        <input type="text" id="esp-nombre" required minlength="1">
+                                    </label>
+                                </div>
+                                <div class="form-row">
+                                    <label>Ubicación/Bloque
+                                        <input type="text" id="esp-ubicacion" required>
+                                    </label>
+                                </div>
+                                <div class="form-row two-col">
+                                    <label>Aforo Máximo
+                                        <input type="number" id="esp-aforo" min="1" step="1" required>
+                                    </label>
+                                    <label>Estado Operativo
+                                        <select id="esp-estado">
+                                            <option value="OPERATIVO">OPERATIVO</option>
+                                            <option value="MANTENIMIENTO">MANTENIMIENTO</option>
+                                            <option value="FUERA_DE_SERVICIO">FUERA_DE_SERVICIO</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn primary" id="btn-guardar-espacio">Guardar Espacio</button>
+                                    <button type="button" class="btn ghost" id="btn-cancelar-espacio" hidden>Cancelar</button>
+                                    <button type="button" class="btn ghost" id="btn-recargar-espacios">Recargar</button>
+                                </div>
+                                <p class="form-help" id="msg-espacio"></p>
+                            </form>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <header class="card-header">
+                            <h2>Listado de Espacios</h2>
+                            <div class="card-actions">
+                                <input type="search" id="search-espacios" placeholder="Buscar por nombre/ubicación...">
+                            </div>
+                        </header>
+                        <div class="card-body">
+                            <div class="table-wrap">
+                                <table class="data-table" id="tabla-espacios">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nombre</th>
+                                            <th>Bloque</th>
+                                            <th>Aforo</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Inventario -->
+            <section id="panel-inventario" class="panel">
+                <h1 class="panel-title">Inventario de Recursos Técnicos</h1>
+                <div class="panel-grid">
+                    <article class="card">
+                        <header class="card-header">
+                            <h2>Registrar Recurso</h2>
+                        </header>
+                        <div class="card-body">
+                            <form id="form-recurso" novalidate>
+                                <div class="form-row">
+                                    <label>Nombre del Equipo
+                                        <input type="text" id="rec-nombre" required>
+                                    </label>
+                                </div>
+                                <div class="form-row two-col">
+                                    <label>Código de Inventario (EV-AAA-000)
+                                        <input type="text" id="rec-codigo" placeholder="EV-SON-001" required>
+                                    </label>
+                                    <label>Espacio
+                                        <select id="rec-espacio" required></select>
+                                    </label>
+                                </div>
+                                <div class="form-row two-col">
+                                    <label>Costo Alquiler/Mantenimiento (S/)
+                                        <input type="number" id="rec-costo" min="0.01" step="0.01" required>
+                                    </label>
+                                    <label>Cantidad en Stock
+                                        <input type="number" id="rec-stock" min="0" step="1" required>
+                                    </label>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn primary" id="btn-guardar-recurso">Guardar Recurso</button>
+                                    <button type="button" class="btn ghost" id="btn-cancelar-recurso" hidden>Cancelar</button>
+                                    <button type="button" class="btn ghost" id="btn-recargar-recursos">Recargar</button>
+                                </div>
+                                <p class="form-help" id="msg-recurso"></p>
+                            </form>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <header class="card-header">
+                            <h2>Listado de Recursos</h2>
+                            <div class="card-actions">
+                                <input type="search" id="search-recursos" placeholder="Buscar código/equipo/espacio...">
+                                <input type="number" id="filtro-costo-min" placeholder="Costo mín">
+                                <input type="number" id="filtro-costo-max" placeholder="Costo máx">
+                                <select id="filtro-espacio">
+                                    <option value="">Todos los espacios</option>
+                                </select>
+                            </div>
+                        </header>
+                        <div class="card-body">
+                            <div class="table-wrap">
+                                <table class="data-table" id="tabla-recursos">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Código</th>
+                                            <th>Equipo</th>
+                                            <th>Costo</th>
+                                            <th>Stock</th>
+                                            <th>Espacio</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Actividad / Auth -->
+            <section id="panel-actividad" class="panel">
+                <h1 class="panel-title">Actividad & Autenticación</h1>
+                <div class="panel-grid">
+                    <article class="card">
+                        <header class="card-header">
+                            <h2>Estado de API</h2>
+                        </header>
+                        <div class="card-body">
+                            <p>URL Base: <code id="api-base-url">--</code></p>
+                            <p>Última petición: <span id="last-activity">--</span></p>
+                            <div class="form-actions">
+                                <button type="button" class="btn ghost" id="btn-test-api">Probar GET /api/espacios/</button>
+                            </div>
+                            <p class="form-help" id="msg-api"></p>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <header class="card-header">
+                            <h2>Token Authentication (DRF)</h2>
+                            <span class="muted">Para operaciones POST/PUT/PATCH/DELETE</span>
+                        </header>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <label>Usuario
+                                    <input type="text" id="auth-user" placeholder="Usuario">
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <label>Contraseña
+                                    <input type="password" id="auth-pass" placeholder="Contraseña">
+                                </label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn primary" id="btn-obtener-token">Obtener Token</button>
+                                <button type="button" class="btn ghost" id="btn-limpiar-token">Limpiar Token</button>
+                            </div>
+                            <p class="form-help" id="msg-auth"></p>
+                            <pre class="token-preview" id="token-preview">Sin token</pre>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
